@@ -50,6 +50,22 @@ jobs:
           print("Installed wheel serves the restaurant page.")
           PY
 
+      - name: Build Docker image
+        run: docker build -t restaurant-ci:ci .
+
+      - name: Test Docker container
+        run: |
+          docker run -d --name restaurant-test \
+            -p 127.0.0.1:8000:8000 restaurant-ci:ci
+
+          trap 'docker logs restaurant-test; docker rm -f restaurant-test' EXIT
+
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 \
+            --connect-timeout 5 --max-time 10 \
+            http://127.0.0.1:8000/ -o homepage.html
+
+          grep -q "Python Bistro" homepage.html
+
       - name: Save wheel
         uses: actions/upload-artifact@v7
         with:
