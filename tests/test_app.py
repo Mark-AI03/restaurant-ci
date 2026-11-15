@@ -1,4 +1,4 @@
-from app import app
+from restaurant.app import app
 
 
 def test_homepage_returns_success():
