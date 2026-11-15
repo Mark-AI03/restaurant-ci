@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Python Bistro</title>
+</head>
+<body>
+    <h1>Python Bistro</h1>
+    <p>Fresh food, made to order.</p>
+
+    <h2>Our menu</h2>
+    <ul>
+        {% for item in menu %}
+        <li>
+            {{ item.name }} — €{{ "%.2f"|format(item.price_cents / 100) }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
